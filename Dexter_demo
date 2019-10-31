@@ -1,0 +1,28 @@
+persistent_set("ROS_URL", "localhost:9090") //required property, but you can edit the value.
+persistent_set("default_dexter_ip_address", "192.168.1.55") //required property but you can edit the value.
+persistent_set("default_dexter_port", "50000") //required property, but you can edit the value.
+new Dexter({name: "dexter0"}) //dexter0 must be defined.
+
+
+/*      Job Example 2 
+move_all_joints takes 5 angles in degrees, one for each 
+of Dexter's joints.
+move_to takes an xyz position (in meters from Dexter's base),
+where you want the end effect to end up.
+Beware, the 2nd and 3rd args to move_to determine the ending
+J5_direction and which way the joints go. 
+These are tricky to get right.
+*/
+new Job({name: "reach_out",
+		robot: Robot.dexter0,
+        //basically each element in the array represents the angle you want a joint to move
+        //joints are J1,J2.J3,J4,J5
+        do_list: [Dexter.move_all_joints([0, 20, 10, 0, 0]) //angles
+                  //Dexter.move_to([0, 0.5, 0.075],     //xyz
+                                 //[0, 0, -1],          //J5_direction
+                                 //Dexter.RIGHT_UP_OUT) //config
+                 ]})
+//After defining this Job by clicking the EVAL button,
+//click this job's button in the Output pane's header to start it.
+
+Job.reach_out.start()//calling the function here
